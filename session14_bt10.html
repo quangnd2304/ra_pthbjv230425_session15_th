@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 10</title>
+</head>
+
+<body>
+    <h2>Form đặt hàng online</h2>
+    <form action="#">
+        <table>
+            <tr>
+                <td>Thông tin người mua</td>
+                <td>Thông tin người nhận</td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="fullname">Họ và tên</label>
+                    <input type="text" name="fullname" id="fullname" />
+                </td>
+                <td>
+                    <label for="recieve">Tôi là người nhận</label>
+                    <input type="checkbox" name="recieve" id="recieve" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" />
+                </td>
+                <td>
+                    <label for="recieve_fullname">Họ và tên</label>
+                    <input type="text" name="recieve_fullname" id="recieve_fullname" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="phone">Điện thoại</label>
+                    <input type="text" name="phone" id="phone" />
+                </td>
+                <td>
+                    <label for="recieve_email">Email</label>
+                    <input type="text" name="recieve_email" id="recieve_email" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="address">Địa chỉ</label>
+                    <input type="text" name="address" id="address" />
+                </td>
+                <td>
+                    <label for="recieve_phone">Điện thoại</label>
+                    <input type="text" name="recieve_phone" id="recieve_phone" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="order_date">Ngày đặt</label>
+                    <input type="date" pattern="dd/MM/yyyy" name="order_date" id="order_date">
+                </td>
+                <td>
+                    <label for="recieve_address">Địa chỉ</label>
+                    <input type="text" name="recieve_address" id="recieve_address" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="paymentType">Phương thức thanh toán</label>
+                    <input type="text" name="paymentType" id="paymentType" />
+                </td>
+                <td rowspan="2">
+                    <label for="description">Ghi chú</label>
+                    <textarea name="description" id="description" cols="30" rows="2"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" name="mailForme" id="mailForme">
+                    <label for="mailForme">Gửi mail cho tôi</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" value="Đặt hàng" id="btnSubmit">
+                    <input type="reset" value="Nhập lại">
+                </td>
+            </tr>
+
+        </table>
+    </form>
+    <script>
+        // Xây dựng hàm xử lý submit
+        let btnSubmit = document.getElementById("btnSubmit");
+        btnSubmit.addEventListener("click", function () {
+            // Xử lý cho sự kiện click vào btnSubmit
+            // B1: Lấy giá trị người dùng nhập vào các ô input
+            let fullname = document.getElementById("fullname").value;
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let address = document.getElementById("address").value;
+            let orderDate = document.getElementById("order_date").value;
+            let paymentType = document.getElementById("paymentType").value;
+            // Validate require
+            let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            let phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+            if (fullname == "" || email == "" || phone == "" || address == "" || orderDate == "" || paymentType == "") {
+                alert("Xin vui lòng nhập dữ liệu đầy đủ");
+            } else if (fullname != fullname.toUpperCase()) {
+                alert("Vui lòng nhập họ và tên viết hoa")
+            } else if (!email.match(emailRegex)) {
+                // validate email
+                alert("Vui lòng nhập đúng định dạng email");
+            } else if (!phone.match(phoneRegex)) {
+                alert("Vui lòng nhập đúng định dạng số điện thoại Việt Nam");
+            } else {
+                // Xử lý cho trường hợp đặt hàng thành công
+                // - Lấy giá trị check box gửi mail cho tôi                
+                if (document.getElementById("mailForme").checked) {
+                    alert("Đặt hàng thành công, email đã gửi tới cho quý khách");
+                } else {
+                    alert("Đặt hàng thành công");
+                }
+            }
+        });
+
+        let recieve = document.getElementById("recieve");
+        recieve.addEventListener("click", function () {
+            if (recieve.checked) {
+                // copy thông tin người mua --> người nhận
+                let fullname = document.getElementById("fullname").value;
+                let email = document.getElementById("email").value;
+                let phone = document.getElementById("phone").value;
+                let address = document.getElementById("address").value;
+                document.getElementById("recieve_fullname").value = fullname;
+                document.getElementById("recieve_email").value = email;
+                document.getElementById("recieve_phone").value = phone;
+                document.getElementById("recieve_address").value = address;
+            } else {
+                document.getElementById("recieve_fullname").value = "";
+                document.getElementById("recieve_email").value = "";
+                document.getElementById("recieve_phone").value = "";
+                document.getElementById("recieve_address").value = "";
+            }
+        })
+
+    </script>
+</body>
+
+</html>
